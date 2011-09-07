@@ -11,12 +11,27 @@ running sbt:
 
 Now to run things...
 
-    $ ./sbt
-    > update
-    > test
-    > run -f config/development.scala
-    $ curl http://localhost:9900/shutdown.txt
-    > exit
+```
+$ ./sbt
+> update
+> test
+>
+...snip...
+[info] == net.mobocracy.starter.StarterSpec ==
+[info] + StarterService should
+[info]   + accept a string
+[info]   + throw an exception on magic string
+[info] + StarterServiceServer should
+[info]   + throw an exception if
+[info]     + no port is specified
+[info]     + no name is specified
+[info]   + shutdown properly
+...snip...
+
+> run -f config/development.scala
+$ curl http://localhost:9900/shutdown.txt
+> exit
+```
 
 ## Configuration
 
