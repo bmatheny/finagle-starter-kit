@@ -29,6 +29,7 @@ Look in the config directory. You can tweak logging options, ports, etc.
     $ ./scripts/serviceClient.rb "hello world"
     $ ./scripts/serviceClient.rb "please throw an exception"
     $ curl http://localhost:9900/stats.txt
+    $ curl http://localhost:9900/shutdown.txt
 
 ### Output from above
 
@@ -84,6 +85,9 @@ metrics:
   StarterService/connection_sent_bytes: (average=70, count=2, maximum=142, minimum=0, p25=0, p50=0, p75=142, p90=142, p95=142, p99=142, p999=142, p9999=142, sum=141)
   StarterService/request_latency_ms: (average=5, count=2, maximum=8, minimum=2, p25=2, p50=2, p75=8, p90=8, p95=8, p99=8, p999=8, p9999=8, sum=10)
   request_hash_msec: (average=1, count=2, maximum=2, minimum=0, p25=0, p50=0, p75=2, p90=2, p95=2, p99=2, p999=2, p9999=2, sum=2)
+
+$ curl http://localhost:9900/shutdown.txt
+ok
 ```
 
 ## Future Updates
