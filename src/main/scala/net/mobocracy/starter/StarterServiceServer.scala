@@ -7,6 +7,7 @@ import com.twitter.logging.Logger
 import com.twitter.ostrich.admin.{Service => OstrichService}
 
 class StarterServiceServer(config: StarterServiceConfig) extends OstrichService with StarterService {
+  require(config != null, "Config must be specified")
   require(config.port > 0, "Need a port to listen on")
   require(config.name != null && config.name.length > 0, "Need a service name")
 

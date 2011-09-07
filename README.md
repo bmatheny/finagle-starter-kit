@@ -1,6 +1,6 @@
-# About
+## About
 
-Some finagle example code for demonstration purposes.
+Some finagle sample code for demonstration purposes.
 
 ## Running
 
@@ -22,3 +22,14 @@ Some finagle example code for demonstration purposes.
 ## Configuration
 
 Look in the config directory. You can tweak logging options, ports, etc.
+
+## Future Updates
+
+ * Runtime heap profiling via [heapster](https://github.com/mariusaeriksen/heapster)
+ * JMX example
+
+## References
+
+ * [Finagle Project](https://github.com/twitter/finagle)
+ * [Finagle Overview](http://engineering.twitter.com/2011/08/finagle-protocol-agnostic-rpc-system.html)
+ * [Ostrich Project](https://github.com/twitter/ostrich)
