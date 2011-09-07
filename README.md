@@ -15,7 +15,7 @@ Now to run things...
 $ ./sbt
 > update
 > test
->
+
 ...snip...
 [info] == net.mobocracy.starter.StarterSpec ==
 [info] + StarterService should
