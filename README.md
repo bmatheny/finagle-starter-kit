@@ -4,6 +4,7 @@ Some finagle sample code for demonstration purposes.
 
  * [Finagle Project](https://github.com/twitter/finagle)
  * [Finagle Overview](http://engineering.twitter.com/2011/08/finagle-protocol-agnostic-rpc-system.html)
+ * [Netty](http://www.jboss.org/netty)
  * [Ostrich Project](https://github.com/twitter/ostrich)
 
 ## Running
