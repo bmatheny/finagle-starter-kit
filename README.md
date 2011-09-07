@@ -2,10 +2,10 @@
 
 Some finagle sample code for demonstration purposes.
 
- * [Finagle Project](https://github.com/twitter/finagle)
- * [Finagle Overview](http://engineering.twitter.com/2011/08/finagle-protocol-agnostic-rpc-system.html)
- * [Netty](http://www.jboss.org/netty)
- * [Ostrich Project](https://github.com/twitter/ostrich)
+ * [Finagle](https://github.com/twitter/finagle) - A fault tolerant, protocol-agnostic RPC system
+ * [Netty](http://www.jboss.org/netty) - an asynchronous event-driven network application framework
+ * [Ostrich Project](https://github.com/twitter/ostrich) - stats collector & reporter for scala servers
+ * [Finagle Article](http://engineering.twitter.com/2011/08/finagle-protocol-agnostic-rpc-system.html)
 
 ## Running
 
