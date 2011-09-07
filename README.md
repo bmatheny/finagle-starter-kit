@@ -4,6 +4,13 @@ Some finagle sample code for demonstration purposes.
 
 ## Running
 
+Note, if you don't work at Tumblr you will need to do the following before
+running sbt:
+
+    $ export SBT_NO_PROXY=true
+
+Now to run things...
+
     $ ./sbt
     > update
     > test
