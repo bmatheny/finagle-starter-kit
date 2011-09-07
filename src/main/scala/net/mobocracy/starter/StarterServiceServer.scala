@@ -10,27 +10,26 @@ class StarterServiceServer(config: StarterServiceConfig) extends OstrichService 
   require(config.port > 0, "Need a port to listen on")
   require(config.name != null && config.name.length > 0, "Need a service name")
 
-  val log = Logger.get(getClass)
   val port = config.port
   val name = config.name
 
   override def start() {
-    log.info("Starting StarterServiceServer")
+    log.debug("Starting StarterServiceServer %s on port %d", name, port)
     server = Some(serverSpec.build(service))
   }
 
   override def shutdown() {
-    log.info("Shutting requested")
+    log.debug("Shutdown requested")
     server match {
       case None =>
-        log.info("Server not started, refusing to shutdown")
+        log.warning("Server not started, refusing to shutdown")
       case Some(server) =>
         try {
           server.close(0.seconds)
           log.info("Shutdown complete")
         } catch {
           case e: Exception =>
-            log.error(e, "Error shutting down server")
+            log.error(e, "Error shutting down server %s listening on port %d", name, port)
         }
     } // server match
   }

@@ -8,7 +8,7 @@ Some finagle example code for demonstration purposes.
     > update
     > test
     > run -f config/development.scala
-    $ curl http://localhost:4242/shutdown.txt
+    $ curl http://localhost:9900/shutdown.txt
     > exit
 
 ## Ostrich
@@ -16,7 +16,8 @@ Some finagle example code for demonstration purposes.
     $ ./sbt
     > run -f config/development.scala
     $ ./scripts/serviceClient.rb "hello world"
-    $ curl http://localhost:4242/stats.txt
+    $ ./scripts/serviceClient.rb "please throw an exception"
+    $ curl http://localhost:9900/stats.txt
 
 ## Configuration
 
