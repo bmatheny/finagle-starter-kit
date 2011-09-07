@@ -2,6 +2,10 @@
 
 Some finagle sample code for demonstration purposes.
 
+ * [Finagle Project](https://github.com/twitter/finagle)
+ * [Finagle Overview](http://engineering.twitter.com/2011/08/finagle-protocol-agnostic-rpc-system.html)
+ * [Ostrich Project](https://github.com/twitter/ostrich)
+
 ## Running
 
 Note, if you don't work at Tumblr you will need to do the following before
@@ -109,9 +113,3 @@ ok
 
  * Runtime heap profiling via [heapster](https://github.com/mariusaeriksen/heapster)
  * JMX example
-
-## References
-
- * [Finagle Project](https://github.com/twitter/finagle)
- * [Finagle Overview](http://engineering.twitter.com/2011/08/finagle-protocol-agnostic-rpc-system.html)
- * [Ostrich Project](https://github.com/twitter/ostrich)
