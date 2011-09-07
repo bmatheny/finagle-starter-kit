@@ -1,5 +1,4 @@
-package net.mobocracy
-package starter
+package net.mobocracy.starter
 
 object Main {
   def main(args: Array[String]) {
