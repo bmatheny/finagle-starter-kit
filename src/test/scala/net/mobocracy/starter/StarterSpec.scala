@@ -5,28 +5,31 @@ import config.StarterServiceConfig
 import com.twitter.finagle.builder.Server
 import com.twitter.conversions.time._
 
-import org.specs.Specification
 import org.specs.mock._
 
-class StarterSpec extends Specification with JMocker {
+class StarterSpec extends AbstractSpec with JMocker {
 
-  var service: StarterService = _
+  var testService: StarterService = _
+
+  def exContains(ss: String): PartialFunction[Exception, Boolean] = {
+    case ex: Exception => ex.getMessage.toLowerCase.contains(ss.toLowerCase)
+  }
 
   "StarterService" should {
     doBefore {
-      service = new {
+      testService = new {
         val port = 10000
         val name = "Test Server"
       } with StarterService;
     }
     "accept a string" >> {
-      val future = service.service("hello")
+      val future = testService.service("hello")
       val reply = future()
       reply must beMatching("hello.*")
     }
     "throw an exception on magic string" >> {
-      val future = service.service("please throw an exception")
-      val reply = future() must throwA[Exception].like { case e:Exception => e.getMessage.contains("don't blame") }
+      val future = testService.service("please throw an exception")
+      val reply = future() must throwA[Exception].like(exContains("don't blame"))
     }
   }
 
@@ -34,11 +37,11 @@ class StarterSpec extends Specification with JMocker {
     "throw an exception if" >> {
       "no port is specified" >> {
         val config = new StarterServiceConfig {port = -1; name = "Hello"}
-        new StarterServiceServer(config) must throwA[IllegalArgumentException].like { case e: Exception => e.getMessage.contains("port") }
+        new StarterServiceServer(config) must throwA[IllegalArgumentException].like(exContains("port"))
       }
       "no name is specified" >> {
         val config = new StarterServiceConfig {port = 1025; name = ""}
-        new StarterServiceServer(config) must throwA[IllegalArgumentException].like { case e: Exception => e.getMessage.contains("service name") }
+        new StarterServiceServer(config) must throwA[IllegalArgumentException].like(exContains("service name"))
       }
     }
     "shutdown properly" >> {
