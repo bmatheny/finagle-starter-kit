@@ -6,7 +6,7 @@ import java.net.InetSocketAddress
 import java.util.concurrent.Callable
 
 import com.twitter.conversions._
-import com.twitter.finagle.{Filter, Service, SimpleFilter}
+import com.twitter.finagle.{ClientConnection, Filter, Service, SimpleFilter}
 import com.twitter.finagle.builder.{Server, ServerBuilder}
 import com.twitter.finagle.stats.OstrichStatsReceiver
 import com.twitter.logging.Logger
@@ -28,6 +28,18 @@ trait StarterService {
     .bindTo(new InetSocketAddress(port))
     .name(name)
     .reportTo(new OstrichStatsReceiver)
+
+  def quitCheck(client: ClientConnection) = new SimpleFilter[String, String] {
+    def apply(request: String, service: Service[String, String]): Future[String] = {
+      request match {
+        case "quit" =>
+          if (client != null) client.close()
+          Future.value("noop") // no one sees this
+        case _ =>
+          service(request)
+      }
+    }
+  }
 
   val exceptionCheck = new SimpleFilter[String,String] {
     def apply(request: String, service: Service[String, String]): Future[String] = {
@@ -62,6 +74,11 @@ trait StarterService {
     }
   }
 
-  val service: Service[String, String] = exceptionCheck andThen hashRequest andThen serviceImpl
+  val service = new Function1[ClientConnection, Service[String, String]] {
+    val underlying: Service[String, String] = exceptionCheck andThen hashRequest andThen serviceImpl
+    def apply(client: ClientConnection): Service[String, String] = {
+      quitCheck(client) andThen underlying
+    }
+  }
 
 }

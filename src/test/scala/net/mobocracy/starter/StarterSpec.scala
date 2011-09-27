@@ -2,6 +2,7 @@ package net.mobocracy.starter
 
 import config.StarterServiceConfig
 
+import com.twitter.finagle.ClientConnection
 import com.twitter.finagle.builder.Server
 import com.twitter.conversions.time._
 
@@ -10,6 +11,7 @@ import org.specs.mock._
 class StarterSpec extends AbstractSpec with JMocker {
 
   var testService: StarterService = _
+  val mockClientConnection = mock[ClientConnection]
 
   def exContains(ss: String): PartialFunction[Exception, Boolean] = {
     case ex: Exception => ex.getMessage.toLowerCase.contains(ss.toLowerCase)
@@ -22,13 +24,24 @@ class StarterSpec extends AbstractSpec with JMocker {
         val name = "Test Server"
       } with StarterService;
     }
+
     "accept a string" >> {
-      val future = testService.service("hello")
+      val future = testService.service(mockClientConnection)("hello")
       val reply = future()
       reply must beMatching("hello.*")
     }
+
+    "handle a quit" >> {
+      expect {
+        one(mockClientConnection).close()
+      }
+      val future = testService.service(mockClientConnection)("quit")
+      val reply = future()
+      reply mustEqual("noop")
+    }
+
     "throw an exception on magic string" >> {
-      val future = testService.service("please throw an exception")
+      val future = testService.service(mockClientConnection)("please throw an exception")
       val reply = future() must throwA[Exception].like(exContains("don't blame"))
     }
   }
