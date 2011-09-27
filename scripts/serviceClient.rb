@@ -9,7 +9,7 @@ options = {
 opts = OptionParser.new do |opts|
   opts.banner = "Usage: serviceClient.rb [option] text"
 
-  opts.on("-p", "--port POT", Integer, "Use the specified port for connecting to the service") do |port|
+  opts.on("-p", "--port PORT", Integer, "Use the specified port for connecting to the service") do |port|
     options[:port] = port.to_i
   end
 end
