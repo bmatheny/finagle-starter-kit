@@ -114,6 +114,23 @@ $ curl http://localhost:9900/shutdown.txt
 ok
 ```
 
+## ClientBuilder client
+
+There is an alternative client (from the ruby one) that can be run via sbt or
+standalone. In the sbt shell you can run it as:
+
+```
+> run-class net.mobocracy.starter.client.Main --value "my test text" 
+```
+
+The scala client takes the following arguments:
+
+  * --concurrent - how many simultaneous connections to the server, defaults to 4
+  * --port - the port to use, defaults to 4242
+  * --requests - number of requests to make, defaults to 25
+  * --timeout - the amount of time in seconds to wait on a reply
+  * --value - the echo value to use, required
+
 ## Future Updates
 
  * Runtime heap profiling via [heapster](https://github.com/mariusaeriksen/heapster)
