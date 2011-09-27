@@ -34,7 +34,7 @@ trait StarterService {
       request match {
         case "quit" =>
           if (client != null) client.close()
-          Future.value("noop") // no one sees this
+          Future.value("noop") // no clients see this
         case _ =>
           service(request)
       }
@@ -56,7 +56,7 @@ trait StarterService {
     def apply(request: String, service: Service[RequestHash, String]): Future[String] = {
       val sleepTime = (math.abs(Random.nextLong()) % (MAX_SLEEP - MIN_SLEEP)) + MIN_SLEEP
 
-      log.debug("Sleeping %d milliseconds", sleepTime)
+      log.debug("Sleeping %d milliseconds for %s", sleepTime, request)
 
       val hash = Stats.time("request_hash") {
         Thread.sleep(sleepTime)

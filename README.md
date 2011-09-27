@@ -1,12 +1,15 @@
-## About
+## About and References
 
 Some finagle sample code for demonstration purposes.
 
  * [Finagle](https://github.com/twitter/finagle) - A fault tolerant, protocol-agnostic RPC system
    * [Overview](http://twitter.github.com/finagle/)
    * [Article](http://engineering.twitter.com/2011/08/finagle-protocol-agnostic-rpc-system.html)
+   * [Scala Days 2011 Video](http://days2011.scala-lang.org/node/138/286)
+   * [ACM Web Frameworks](http://steve.vinoski.net/pdf/IC-Scala_Web_Frameworks.pdf)
  * [Netty](http://www.jboss.org/netty) - an asynchronous event-driven network application framework
  * [Ostrich Project](https://github.com/twitter/ostrich) - stats collector & reporter for scala servers
+ * [Scala School](http://twitter.github.com/scala_school/finagle.html) - wonderful tutorial produced by Twitter
 
 ## Running
 
@@ -115,3 +118,7 @@ ok
 
  * Runtime heap profiling via [heapster](https://github.com/mariusaeriksen/heapster)
  * JMX example
+
+## Favorite quotes
+
+> These methods are not generic enough for general use.
