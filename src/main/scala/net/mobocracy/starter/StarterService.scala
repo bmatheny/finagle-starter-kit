@@ -77,6 +77,7 @@ trait StarterService {
   val service = new Function1[ClientConnection, Service[String, String]] {
     val underlying: Service[String, String] = exceptionCheck andThen hashRequest andThen serviceImpl
     def apply(client: ClientConnection): Service[String, String] = {
+      log.debug("Got request")
       quitCheck(client) andThen underlying
     }
   }
