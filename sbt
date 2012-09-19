@@ -1,14 +1,42 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ -z "$SBT_OPTS" ]; then
-	SBT_OPTS="-Xmx4096m -Xms4096m -XX:NewSize=768m -XX:MaxPermSize=1024m";
+root=$(
+  cd $(dirname $(readlink $0 || echo $0))/..
+  /bin/pwd
+)
+
+sbtjar=sbt-launch.jar
+
+if [ ! -f $sbtjar ]; then
+  echo 'downloading '$sbtjar 1>&2
+  curl -O http://repo.typesafe.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.2/$sbtjar
 fi
-if [ -z "$SBT_BOOT_PROPERTIES" ]; then
-	SBT_BOOT_PROPERTIES="" #-Dsbt.boot.properties=`dirname $0`/project/sbt.boot.properties"
+
+test -f $sbtjar || exit 1
+
+sbtjar_md5=$(openssl md5 < $sbtjar|cut -f2 -d'='|awk '{print $1}')
+
+if [ "${sbtjar_md5}" != 2886cc391e38fa233b3e6c0ec9adfa1e ]; then
+  echo 'bad sbtjar!' 1>&2
+  exit 1
 fi
-if [ -z "$SBT_PROXY_REPO" ]; then
-	if [ -z "$SBT_NO_PROXY" ]; then
-		export SBT_PROXY_REPO="http://10.60.26.92:8081/nexus/content/groups/public/"
-	fi
-fi
-java ${SBT_OPTS} ${SBT_BOOT_PROPERTIES} -jar `dirname $0`/lib/sbt-launch.jar "$@"
+
+test -f ~/.sbtconfig && . ~/.sbtconfig
+
+java -ea                          \
+  $SBT_OPTS                       \
+  $JAVA_OPTS                      \
+  -Djava.net.preferIPv4Stack=true \
+  -XX:+AggressiveOpts             \
+  -XX:+UseParNewGC                \
+  -XX:+UseConcMarkSweepGC         \
+  -XX:+CMSParallelRemarkEnabled   \
+  -XX:+CMSClassUnloadingEnabled   \
+  -XX:MaxPermSize=1024m           \
+  -XX:SurvivorRatio=128           \
+  -XX:MaxTenuringThreshold=0      \
+  -Xss8M                          \
+  -Xms512M                        \
+  -Xmx3G                          \
+  -server                         \
+  -jar $sbtjar "$@"
