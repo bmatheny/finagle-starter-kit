@@ -2,7 +2,7 @@ package net.mobocracy.starter
 package client
 
 import com.twitter.conversions.time._
-import com.twitter.finagle.TimedoutRequestException
+import com.twitter.finagle.RequestTimeoutException
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.util.{Future, JavaTimer, Time, TimeoutException}
 
@@ -16,7 +16,7 @@ object Main {
     val requestCount = options.getOrElse("requests", 25).asInstanceOf[Int]
     val value = options("value").asInstanceOf[String]
     val timeout = options.getOrElse("timeout", 4).asInstanceOf[Int].seconds
-    val totalTimeout = options.getOrElse("totalTimeout", 30).asInstanceOf[Int].seconds
+    val totalTimeout = options.getOrElse("totalTimeout", 100).asInstanceOf[Int].seconds
 
     val client = ClientBuilder()
                   .codec(StringCodec())
@@ -32,7 +32,7 @@ object Main {
         if (progress) printf("Received success result for %s: %s\n", request, result.stripLineEnd)
       } onFailure { error =>
         if (progress) printf("Received error result for %s: %s\n", request, error.getClass.toString)
-      } handle { case e: TimedoutRequestException => "Request Timeout for %s".format(request) }
+      } handle { case e: RequestTimeoutException => "Request Timeout for %s".format(request) }
     }
 
     Future.collect(requests).get(totalTimeout) onSuccess { list =>

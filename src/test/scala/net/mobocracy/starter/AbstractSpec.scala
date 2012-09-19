@@ -8,10 +8,10 @@ import org.specs.Specification
 abstract class AbstractSpec extends Specification {
 
   def setLogLevel(_level: Level) {
-    Logger.configure(new LoggerConfig {
+    Logger.configure(List(new LoggerConfig {
       level = _level
       handlers = new ConsoleHandlerConfig()
-    })
+    }))
   }
 
   setLogLevel(Level.WARNING)
