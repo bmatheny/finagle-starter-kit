@@ -16,7 +16,7 @@ object Main {
     val requestCount = options.getOrElse("requests", 25).asInstanceOf[Int]
     val value = options("value").asInstanceOf[String]
     val timeout = options.getOrElse("timeout", 4).asInstanceOf[Int].seconds
-    val totalTimeout = options.getOrElse("totalTimeout", 30).asInstanceOf[Int].seconds
+    val totalTimeout = options.getOrElse("totalTimeout", 100).asInstanceOf[Int].seconds
 
     val client = ClientBuilder()
                   .codec(StringCodec())
