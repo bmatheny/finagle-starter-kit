@@ -1,5 +1,3 @@
-import com.twitter.sbt._
-
 organization := "net.mobocracy"
 
 name := "starter"

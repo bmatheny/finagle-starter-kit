@@ -8,3 +8,4 @@ dist
 project/plugins/project
 *.gem
 .NERDTreeBookmarks
+sbt-launch.jar
