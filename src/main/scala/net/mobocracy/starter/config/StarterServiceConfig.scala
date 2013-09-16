@@ -4,9 +4,8 @@ package config
 import util.Helpers._
 
 import com.twitter.ostrich.admin.RuntimeEnvironment
-import com.twitter.ostrich.admin.config.ServerConfig
 
-class StarterServiceConfig extends ServerConfig[StarterServiceServer] {
+class StarterServiceConfig {
   var port: Int = 3009
   var name: String = "StarterService"
 

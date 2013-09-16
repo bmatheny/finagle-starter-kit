@@ -72,6 +72,6 @@ object Main {
       println("--timeout INT      - Seconds to wait before request timeout, 4")
       println("--totalTimeout INT - Seconds to wait before all requests are timed out, 30")
       println("--value STRING     - Echo value to use, must be specified")
-      exit(1)
+      sys.exit(1)
   }
 }

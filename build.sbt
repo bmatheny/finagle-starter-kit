@@ -6,6 +6,8 @@ version := "1.1"
 
 scalaVersion := "2.9.1"
 
+scalacOptions += "-deprecation"
+
 resolvers ++= Seq("sonatype" at "https://oss.sonatype.org/content/groups/scala-tools/",
                   "twitter.com" at "http://maven.twttr.com/")
 

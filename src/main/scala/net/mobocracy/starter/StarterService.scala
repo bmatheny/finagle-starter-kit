@@ -6,7 +6,7 @@ import java.net.InetSocketAddress
 import java.util.concurrent.Callable
 
 import com.twitter.conversions._
-import com.twitter.finagle.{ClientConnection, Filter, Service, SimpleFilter}
+import com.twitter.finagle.{ClientConnection, Filter, Service, ServiceFactory, SimpleFilter}
 import com.twitter.finagle.builder.{Server, ServerBuilder}
 import com.twitter.finagle.stats.OstrichStatsReceiver
 import com.twitter.logging.Logger
@@ -74,11 +74,14 @@ trait StarterService {
     }
   }
 
-  val service = new Function1[ClientConnection, Service[String, String]] {
+  val service = new ServiceFactory[String, String] {
     val underlying: Service[String, String] = exceptionCheck andThen hashRequest andThen serviceImpl
-    def apply(client: ClientConnection): Service[String, String] = {
+    override def apply(client: ClientConnection): Future[Service[String, String]] = {
       log.debug("Got request")
-      quitCheck(client) andThen underlying
+      Future.value(quitCheck(client) andThen underlying)
+    }
+    override def close() {
+      log.debug("Closing service factory");
     }
   }
 
