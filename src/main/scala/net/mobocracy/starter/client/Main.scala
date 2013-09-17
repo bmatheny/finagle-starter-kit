@@ -4,7 +4,7 @@ package client
 import com.twitter.conversions.time._
 import com.twitter.finagle.RequestTimeoutException
 import com.twitter.finagle.builder.ClientBuilder
-import com.twitter.util.{Future, JavaTimer, Time, TimeoutException}
+import com.twitter.util.{Await, Future, JavaTimer, Time, TimeoutException}
 
 object Main {
   def main(args: Array[String]) {
@@ -17,6 +17,7 @@ object Main {
     val value = options("value").asInstanceOf[String]
     val timeout = options.getOrElse("timeout", 4).asInstanceOf[Int].seconds
     val totalTimeout = options.getOrElse("totalTimeout", 100).asInstanceOf[Int].seconds
+    implicit val timer = new JavaTimer
 
     val client = ClientBuilder()
                   .codec(StringCodec())
@@ -35,14 +36,14 @@ object Main {
       } handle { case e: RequestTimeoutException => "Request Timeout for %s".format(request) }
     }
 
-    Future.collect(requests).get(totalTimeout) onSuccess { list =>
+    Future.collect(requests).within(totalTimeout) onSuccess { list =>
       println("\nResults\n")
       println(list.map { _.stripLineEnd } mkString("\n"))
     } onFailure { err =>
       println("\nResults\n")
       println("Error processing list: " + err)
     } ensure {
-      client.release()
+      client.close();
     }
   }
 

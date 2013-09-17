@@ -11,7 +11,7 @@ import com.twitter.finagle.builder.{Server, ServerBuilder}
 import com.twitter.finagle.stats.OstrichStatsReceiver
 import com.twitter.logging.Logger
 import com.twitter.ostrich.stats.Stats
-import com.twitter.util.{Future, FutureTask}
+import com.twitter.util.{Future, Time}
 
 trait StarterService {
   val port: Int
@@ -80,8 +80,9 @@ trait StarterService {
       log.debug("Got request")
       Future.value(quitCheck(client) andThen underlying)
     }
-    override def close() {
-      log.debug("Closing service factory");
+    override def close(deadline: Time): Future[Unit] = {
+      log.debug("Closing service factory in %s".format(deadline.toString()));
+      Future.Unit
     }
   }
 

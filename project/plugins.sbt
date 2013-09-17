@@ -12,4 +12,4 @@ resolvers ++= Seq(
 //      "jboss" at "http://repository.jboss.org/nexus/content/groups/public/"
     )
 
-addSbtPlugin("com.twitter" % "sbt-package-dist" % "1.0.6")
+addSbtPlugin("com.twitter" % "sbt-package-dist" % "1.1.1")

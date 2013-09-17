@@ -2,9 +2,10 @@ package net.mobocracy.starter
 
 import config.StarterServiceConfig
 
-import com.twitter.finagle.ClientConnection
+import com.twitter.finagle.{ClientConnection, Service}
 import com.twitter.finagle.builder.Server
 import com.twitter.conversions.time._
+import com.twitter.util.Await
 
 import org.specs.mock._
 
@@ -17,6 +18,10 @@ class StarterSpec extends AbstractSpec with JMocker {
     case ex: Exception => ex.getMessage.toLowerCase.contains(ss.toLowerCase)
   }
 
+  def getService: Service[String, String] = {
+    Await.result(testService.service(mockClientConnection))
+  }
+
   "StarterService" should {
     doBefore {
       testService = new {
@@ -26,8 +31,8 @@ class StarterSpec extends AbstractSpec with JMocker {
     }
 
     "accept a string" >> {
-      val future = testService.service(mockClientConnection)("hello")
-      val reply = future()
+      val future = getService("hello")
+      val reply = Await.result(future)
       reply must beMatching("hello.*")
     }
 
@@ -35,14 +40,14 @@ class StarterSpec extends AbstractSpec with JMocker {
       expect {
         one(mockClientConnection).close()
       }
-      val future = testService.service(mockClientConnection)("quit")
-      val reply = future()
+      val future = getService("quit")
+      val reply = Await.result(future)
       reply mustEqual("noop")
     }
 
     "throw an exception on magic string" >> {
-      val future = testService.service(mockClientConnection)("please throw an exception")
-      val reply = future() must throwA[Exception].like(exContains("don't blame"))
+      val future = getService("please throw an exception")
+      val reply = Await.result(future) must throwA[Exception].like(exContains("don't blame"))
     }
   }
 
